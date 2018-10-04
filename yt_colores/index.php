@@ -21,7 +21,11 @@
        $sentencia_agregar = $pdo->prepare($sql_agregar);
        $sentencia_agregar->execute(array($color,$descripcion));
 
+       //cerramos conexión base de datos y sentencia
+       $sentencia_agregar = null;
+       $pdo = null;
        header('location:index.php');
+
     }
 
     if($_GET){
@@ -30,6 +34,8 @@
         $gsent_unico = $pdo->prepare($sql_unico);
         $gsent_unico->execute(array($id));
         $resultado_unico = $gsent_unico->fetch();
+
+        //var_dump($resultado_unico);
     }
 
 
@@ -62,6 +68,11 @@
                     -
                     <?php  echo $dato['descripcion'] ?>
 
+                    <a href="eliminar.php?id=<?php  echo $dato['id'] ?>"
+                    class="float-right ml-3">
+                        <i class="far fa-trash-alt"></i>
+                    </a>
+
                     <a href="index.php?id=<?php  echo $dato['id'] ?>"
                      class="float-right">
                         <i class="fas fa-pencil-alt"></i>
@@ -85,8 +96,12 @@
                  <?php if($_GET): ?>
                 <h2>Editar Elementos</h2>
                 <form method="GET" action="editar.php"> 
-                    <input type="text" class="form-control" name="color">
-                    <input type="text" class="form-control mt-3" name="descripcion">
+                    <input type="text" class="form-control" name="color" 
+                    value="<?php echo $resultado_unico['color'] ?>">
+                    <input type="text" class="form-control mt-3" name="descripcion" 
+                    value="<?php echo $resultado_unico['descripcion'] ?>">
+                    <input type="hidden" name="id"
+                    value="<?php echo $resultado_unico['id'] ?>">
                     <button class="btn btn-primary mt-3">Agregar</button>
                 </form>
                 <?php endif ?>
@@ -102,3 +117,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
+
+<?php
+
+//cerramos conexión base de datos y sentencia
+$pdo = null;
+$gsent = null:
+
+?>
